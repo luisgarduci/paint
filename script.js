@@ -1,3 +1,4 @@
+
 const canvas = document.querySelector("canvas")
 const ctx = canvas.getContext("2d")
 
@@ -5,7 +6,7 @@ const inputColor = document.querySelector(".input__color")
 const tools = document.querySelectorAll(".button__tool")
 const sizeButtons = document.querySelectorAll(".button__size")
 const buttonClear = document.querySelector(".button__clear")
-const buttonSave = document.querySelector(".button__save")
+const dowload = document.querySelector("#download")
 
 let firstDraw = [];
 
@@ -54,7 +55,7 @@ canvas.addEventListener("mousemove", ({ clientX, clientY }) => {
             }
             else {
                 saves.push([clientX, clientY, color, brushSize])
-                localStorage.setItem("save", JSON.stringify(saves))
+                localStorage.setItem("save", JSON.stringify(saves));
             }
             
             
@@ -159,4 +160,21 @@ buttonClear.addEventListener("click", () => {
     localStorage.removeItem("save");
 })
 
+dowload.addEventListener("click", () => {
+    html2canvas(document.querySelector('#screen')).then(function(canvas) {
+        // Converta o canvas em um URL de dados
+        var dataURL = canvas.toDataURL();
+        var downloadLink = document.createElement("a");
+            downloadLink.href = dataURL;
+            downloadLink.download = 'draw.png'; // Nome do arquivo a ser baixado
+                
+                // Adiciona o link ao corpo do documento e inicia o download
+         document.body.appendChild(downloadLink);
+         downloadLink.click();
+                
+                // Remove o link após o download
+                document.body.removeChild(downloadLink);
+        // Anexe o link ao corpo do documento
+    });
+})
 
